@@ -1,49 +1,55 @@
 {
-    "factors": [
-        {
-            "id": "",
-            "name": ""
-        }
-    ],
-    "environments": [
-        {
-            "id": "",
-            "name": "",
-            "factors": []
-        }
-    ],
-    "attributes": [
-        {
-            "id": "",
-            "name": "",
-            "affection": [
-                {
-                    "id": "",
-                    "factor": "",
-                    "strength": 0
-                }
-            ]
-        }
-    ],
-    "species": [
-        {
-            "id": "",
-            "name": "",
-            "attributes": []
-        }
-    ],
-    "entities": [
-        {
-            "id": "",
-            "name": "",
-            "species": "",
-            "implementedAttributes": [
-                {
-                    "id": "",
-                    "attribute": "",
-                    "weight": 0
-                }
-            ]
-        }
-    ]
+	"factors": [
+		{
+			"id": "",
+			"name": ""
+		}
+	],
+	"environments": [
+		{
+			"id": "",
+			"name": "",
+			"implementedFactors": [
+				{
+					"id": "",
+					"factor": "",
+					"value": 0
+				}
+			]
+		}
+	],
+	"attributes": [
+		{
+			"id": "",
+			"name": "",
+			"affection": [
+				{
+					"id": "",
+					"factor": "",
+					"strength": 0
+				}
+			]
+		}
+	],
+	"species": [
+		{
+			"id": "",
+			"name": "",
+			"attributes": []
+		}
+	],
+	"entities": [
+		{
+			"id": "",
+			"name": "",
+			"species": "",
+			"implementedAttributes": [
+				{
+					"id": "",
+					"attribute": "",
+					"weight": 0
+				}
+			]
+		}
+	]
 }
