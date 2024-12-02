@@ -18,8 +18,8 @@ export class FactorController {
 
 	@Post()
 	async create(@Body() dto: CreateFactorRequest) {
-		const data = await this.factorService.create(dto);
-		return new ApiResponseDto(FactorResponse.fromDocument(data));
+		await this.factorService.create(dto);
+		return new ApiResponseDto(null, null, "Success!");
 	}
 
 	@Put(":id")
@@ -29,8 +29,8 @@ export class FactorController {
 		id: string,
 		@Body() dto: CreateFactorRequest,
 	) {
-		const data = await this.factorService.update(id, dto);
-		return new ApiResponseDto(FactorResponse.fromDocument(data));
+		await this.factorService.update(id, dto);
+		return new ApiResponseDto(null, null, "Success!");
 	}
 
 	@Delete(":id")
@@ -40,7 +40,7 @@ export class FactorController {
 		id: string,
 	) {
 		await this.factorService.delete(id);
-		return new ApiResponseDto("Success!");
+		return new ApiResponseDto(null, null, "Success!");
 	}
 
 	@Get()

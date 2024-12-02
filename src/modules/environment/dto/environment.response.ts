@@ -4,7 +4,7 @@ import { ApiProperty } from "@nestjs/swagger";
 
 class ImplementedFactorResponse {
 	@ApiProperty()
-	id: number;
+	id: string;
 
 	@ApiProperty()
 	factor: FactorResponse;
@@ -31,7 +31,7 @@ export class EnvironmentResponse {
 				d.implementedFactors &&
 				d.implementedFactors.map((item) => ({
 					id: item.id,
-					factor: FactorResponse.fromDocument(item.factor),
+					factor: item.factor && FactorResponse.fromDocument(item.factor),
 					value: item.value,
 				})),
 		};

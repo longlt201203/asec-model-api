@@ -8,26 +8,24 @@ import {
 	ValidateNested,
 } from "class-validator";
 
-class ImplementedFactorRequest {
+class AffectionRequest {
 	@ApiProperty()
-	@IsString()
-	@IsNotEmpty()
 	@IsObjectId()
 	factor: string;
 
 	@ApiProperty()
 	@IsNumber()
-	value: number;
+	strength: number;
 }
 
-export class CreateEnvironmentRequest {
+export class CreateAttributeRequest {
 	@ApiProperty()
 	@IsString()
 	@IsNotEmpty()
 	name: string;
 
-	@ApiProperty({ type: ImplementedFactorRequest, isArray: true })
+	@ApiProperty({ type: AffectionRequest, isArray: true })
 	@ValidateNested({ each: true })
-	@Type(() => ImplementedFactorRequest)
-	implementedFactors: ImplementedFactorRequest[];
+	@Type(() => AffectionRequest)
+	affections: AffectionRequest[];
 }
