@@ -1,17 +1,20 @@
 import { Injectable } from "@nestjs/common";
-import { CreateEnvironmentRequest, UpdateEnvironmentRequest } from "./dto";
-import { EnvironmentModel } from "@db/models";
+import {
+	CreateEnvironmentRequest,
+	UpdateEnvironmentImplementedFactorsRequest,
+	UpdateEnvironmentRequest,
+} from "./dto";
+import { EnvironmentDocumentType, EnvironmentModel } from "@db/models";
 import { EnvironmentNotFoundError } from "./errors";
+import { UpdateQuery } from "mongoose";
+import { UpdateEnvironmentImplementedFactorRequestOperationEnum } from "./environment.enums";
 
 @Injectable()
 export class EnvironmentService {
 	async create(dto: CreateEnvironmentRequest) {
 		return await EnvironmentModel.create({
 			name: dto.name,
-			implementedFactors: dto.implementedFactors.map((item) => ({
-				factor: item.factor,
-				value: item.value,
-			})),
+			implementedFactors: [],
 		});
 	}
 
@@ -40,13 +43,54 @@ export class EnvironmentService {
 			{
 				$set: {
 					name: dto.name,
-					implementedFactors: dto.implementedFactors.map((item) => ({
-						factor: item.factor,
-						value: item.value,
-					})),
 				},
 			},
 		);
+	}
+
+	async updateImplementedFactors(
+		id: string,
+		dto: UpdateEnvironmentImplementedFactorsRequest,
+	) {
+		await this.getOneOrFail(id);
+		let updateData: UpdateQuery<EnvironmentDocumentType> = {};
+		let arrayFilters: any[] = [];
+		switch (dto.operation) {
+			case UpdateEnvironmentImplementedFactorRequestOperationEnum.ADD:
+				updateData = {
+					$push: {
+						implementedFactors: {
+							factor: dto.implementedFactor.factor,
+							value: dto.implementedFactor.value || 0,
+						},
+					},
+				};
+				break;
+			case UpdateEnvironmentImplementedFactorRequestOperationEnum.REMOVE:
+				updateData = {
+					$pull: {
+						implementedFactors: {
+							factor: dto.implementedFactor.factor,
+						},
+					},
+				};
+				break;
+			case UpdateEnvironmentImplementedFactorRequestOperationEnum.UPDATE:
+				updateData = {
+					$set: {
+						"implementedFactors.$[element].value": dto.implementedFactor.value,
+					},
+				};
+				arrayFilters = [
+					{
+						"element.factor": dto.implementedFactor.factor,
+					},
+				];
+				break;
+		}
+		return await EnvironmentModel.updateOne({ _id: id }, updateData, {
+			arrayFilters,
+		});
 	}
 
 	async delete(id: string) {

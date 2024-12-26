@@ -12,6 +12,7 @@ import { ApiResponseDto, ObjectIdParam } from "@utils";
 import {
 	CreateEnvironmentRequest,
 	EnvironmentResponse,
+	UpdateEnvironmentImplementedFactorsRequest,
 	UpdateEnvironmentRequest,
 } from "./dto";
 
@@ -50,6 +51,18 @@ export class EnvironmentController {
 		dto: UpdateEnvironmentRequest,
 	) {
 		await this.environmentService.update(id, dto);
+		return new ApiResponseDto(null, null, "Success!");
+	}
+
+	@Put(":id/factor")
+	async updateFactors(
+		@ObjectIdParam("id")
+		@Param("id")
+		id: string,
+		@Body()
+		dto: UpdateEnvironmentImplementedFactorsRequest,
+	) {
+		await this.environmentService.updateImplementedFactors(id, dto);
 		return new ApiResponseDto(null, null, "Success!");
 	}
 
